@@ -1,6 +1,6 @@
 import themes from '../lib/themes';
 
-import { UserContext } from '../components/Main';
+import UserContext from '../components/UserContext';
 
 const Profile = ({ theme, onThemeChange, toggleUpdate, handleUpdate }) => (
   <UserContext.Consumer>
