@@ -1,11 +1,11 @@
-import UserContext from '../components/UserContext';
+import { UserConsumer } from '../components/UserContext';
 
 const Index = () => (
-  <UserContext.Consumer>
-    {user => (
+  <UserConsumer>
+    {context => (
       /** Alternative way to indicate React.Fragment */
       <>
-        <h1>{user.name}'s Accounts</h1>
+        <h1>{context.user.name}'s Accounts</h1>
         <div className="clearfix">
           <div className="card">
             <h3>Checking</h3>
@@ -52,7 +52,7 @@ const Index = () => (
         </div>
       </>
     )}
-  </UserContext.Consumer>
+  </UserConsumer>
 );
 
 export default Index;

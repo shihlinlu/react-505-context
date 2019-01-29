@@ -1,24 +1,29 @@
 import Link from 'next/link';
-import UserContext from '../components/UserContext';
+import { UserConsumer } from './UserContext';
+import { ThemeConsumer } from './ThemeContext';
 
-const Header = ({ theme }) => (
-  <UserContext.Consumer>
-    {user => (
-      <div className="header">
-        <Link href="/">
-          <a>💳 Accounts</a>
-        </Link>
-        <Link href="/profile">
-          <a>👤 Profile</a>
-        </Link>
-        <div className="avatar">
-          Hi{' '}
-          <Link href="/profile">
-            <a>{user.name}</a>
-          </Link>
-        </div>
+// order of nesting consumers doesn't matter
 
-        <style jsx>{`
+const Header = () => (
+  <ThemeConsumer>
+    {({theme}) => (
+      <UserConsumer>
+        {({user}) => (
+          <div className="header">
+            <Link href="/">
+              <a>💳 Accounts</a>
+            </Link>
+            <Link href="/profile">
+              <a>👤 Profile</a>
+            </Link>
+            <div className="avatar">
+              Hi{' '}
+              <Link href="/profile">
+                <a>{user.name}</a>
+              </Link>
+            </div>
+
+            <style jsx>{`
           .header {
             background-color: ${theme.headerColor};
             padding: 1rem;
@@ -27,9 +32,11 @@ const Header = ({ theme }) => (
             float: right;
           }
         `}</style>
-      </div>
+          </div>
+        )}
+      </UserConsumer>
     )}
-  </UserContext.Consumer>
+  </ThemeConsumer>
 );
 
 export default Header;
