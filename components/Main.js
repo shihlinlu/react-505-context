@@ -1,65 +1,70 @@
-import React from 'react'
-import Layout from '../components/Layout'
-import themes from '../lib/themes'
+import * as React from 'react';
+import Layout from '../components/Layout';
+import themes from '../lib/themes';
+
+export const UserContext = React.createContext();
 
 class Main extends React.Component {
   state = {
     user: {
       name: 'Peter',
       email: 'pete@aol.com',
-      updating: false
+      updating: false,
     },
     theme: {
-      ...themes[0]
-    }
-  }
+      ...themes[0],
+    },
+  };
 
   onThemeChange(name) {
     this.setState({
-      theme: themes.find(theme => theme.name === name)
-    })
+      theme: themes.find(theme => theme.name === name),
+    });
   }
 
   toggleUpdate() {
     this.setState({
       user: {
         ...this.state.user,
-        updating: !this.state.user.updating
-      }
-    })
+        updating: !this.state.user.updating,
+      },
+    });
   }
 
   handleUpdate(e) {
-    e.preventDefault()
-    const form = e.target
-    const data = {}
+    e.preventDefault();
+    const form = e.target;
+    const data = {};
     for (let element of form.elements) {
-      if (element.name === '') { continue; }
+      if (element.name === '') {
+        continue;
+      }
       data[element.name] = element.value;
     }
     this.setState({
       user: {
         name: data.userName,
         email: data.userEmail,
-        updating: false
-      }
-    })
+        updating: false,
+      },
+    });
   }
 
   render() {
-    return(
-      <React.Fragment>
-      <Layout
-        user={this.state.user}
-        theme={this.state.theme}
-        toggleUpdate={() => this.toggleUpdate()}
-        handleUpdate={(e) => this.handleUpdate(e)}
-        onThemeChange={(e) => this.onThemeChange(e.target.value)}>
-        { this.props.children }
-      </Layout>
-      <style jsx global>{`
+    return (
+      <UserContext.Provider value={this.state.user}>
+        <Layout
+          user={this.state.user}
+          theme={this.state.theme}
+          toggleUpdate={() => this.toggleUpdate()}
+          handleUpdate={e => this.handleUpdate(e)}
+          onThemeChange={e => this.onThemeChange(e.target.value)}
+        >
+          {this.props.children}
+        </Layout>
+        <style jsx global>{`
           body {
-            font-family: "Arial";
+            font-family: 'Arial';
             color: ${this.state.theme.textColor};
             background-color: ${this.state.theme.bodyColor};
           }
@@ -75,7 +80,7 @@ class Main extends React.Component {
           }
           table {
             padding: 1rem;
-            border: 1px #DDD solid;
+            border: 1px #ddd solid;
           }
           th {
             min-width: 6rem;
@@ -93,7 +98,7 @@ class Main extends React.Component {
             display: block;
             margin: 0.5rem 0;
           }
-          input[type=submit] {
+          input[type='submit'] {
             font-size: 1rem;
             padding: 0.5rem;
             margin-top: 1rem;
@@ -109,13 +114,13 @@ class Main extends React.Component {
           }
           .clearfix::after {
             display: block;
-            content: "";
+            content: '';
             clear: both;
           }
-      `}</style>
-      </React.Fragment>
-    )
+        `}</style>
+      </UserContext.Provider>
+    );
   }
 }
 
-export default Main
+export default Main;

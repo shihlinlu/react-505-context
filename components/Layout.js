@@ -1,12 +1,12 @@
-import Head from "next/head"
-import Header from './Header'
+import Head from 'next/head';
+import Header from './Header';
 
-const Layout = (props) => (
+const Layout = props => (
   <div className="container">
     <Head>
       <title>My Bank</title>
     </Head>
-    <Header user={props.user} theme={props.theme}/>
+    <Header theme={props.theme} />
 
     {React.cloneElement(props.children, props)}
 
@@ -14,6 +14,6 @@ const Layout = (props) => (
       padding: 1rem;
     `}</style>
   </div>
-)
+);
 
-export default Layout
+export default Layout;
